@@ -4,12 +4,18 @@
   
   </head>
   <body>
-    <form>
-	  <label></label>
-	  <input type="range" />
-	  <label></label>
-	  <input type="range" />
-	  <input id="generate-png-btn" type="submit" value="Generate New .PNG" />
+    <form id="generate-form" action="http://localhost:8080/generate" method="post" autocomplete="off">
+	  <label for="pngfnameinput">New .PNG Filename</label>
+	  <input id="pngfnameinput" name="filename" type="text" placeholder="new.png"/>
+	  <label for="pngwidthinput">.PNG Width</label>
+	  <input id="pngwidthinput" name="width" type="range" value="1500" min="400" max="2000" step="1" />
+	  <label for="pngheightinput">.PNG Height</label>
+	  <input id="pngheightinput" name="height" type="range" value="1500" min="400" max="2000" step="1" />
+	  <label for="scaleinput">Scale</label>
+	  <input id="scaleinput" name="scale" type="range" value="0.005" min="0" max="0.1" step="0.001"/>
+	  <button id="generate-png-btn" type="submit">Generate New .PNG</button>
+	  <a id="download-png-link" href="" style="display: none">Download Generated .PNG</a>
 	</form>
   </body>
+  <script type="text/javascript" src="../src/app.js"></script>
 </html>
