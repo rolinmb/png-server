@@ -16,18 +16,17 @@ document.getElementById('generate-form').addEventListener('submit', function(e) 
   }).then(response => {
 	if (response.ok) {
 	  console.log('Request successfully sent to https://localhost:8080/generate');
-	  // need to get new.png from the HTTP response
-	  response.blob().then(blob => {
-	    const url = URL.createObjectURL(blob);
-		const a = document.getElementById('download-png-link');
-		a.href = url;
-		a.download = formObj.filename || 'new.png';
-		a.style.display = 'block';
-	  });
-	  // create a download link that has an href to download new.png
+	  return response.blob();
 	} else {
 	  console.error('Request failed to send to https://localhost:8080/generate');
 	}
+  }).then(blob => {
+	  console.log(blob);
+	  const url = window.URL.createObjectURL(blob);
+	  const a = document.getElementById('download-png-link');
+	  a.href = url;
+	  a.download = formObj.filename || 'new.png';
+	  a.style.display = 'block';
   }).catch(error => {
 	  console.error('Network Error:',error);
   });
