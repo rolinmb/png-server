@@ -25,14 +25,24 @@ document.getElementById('generate-form').addEventListener('submit', function(e) 
 	  const a = document.getElementById('download-png-link');
 	  const img = document.getElementById('download-png-preview');
 	  if (blob.type === 'application/octet-stream') {
-	    const pngBlob = new Blob([blob], { type: 'image/png' });
+		const reader = new FileReader();
+		reader.onload = function () {
+		  img.src = reader.result;
+		  img.style.display = 'block';
+		  a.href = reader.result;
+		  a.download = formObj.filename || 'new.png';
+		  a.innerHTML = 'Download '+a.download;
+		  a.style.display = 'block';
+		}
+		reader.readAsDataURL(blob);
+	    /*const pngBlob = new Blob([blob], { type: 'image/png' });
 		const url = URL.createObjectURL(pngBlob);
 		img.src = url;
 		img.style.display = 'block';
 		a.href = url;
 		a.download = formObj.filename || 'new.png';
 		a.innerHTML = 'Download '+a.download;
-		a.style.display = 'block';
+		a.style.display = 'block';*/
 	  } else {
 		console.error('Received blob from server is not of type "application/octet-stream"');
 	  }
