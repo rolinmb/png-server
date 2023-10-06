@@ -71,7 +71,7 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 			if err != nil {
 				log.Fatal(err)
 			}
-			// log.Println(string(body)) // preview POSTed JSON request body
+			log.Println(string(body)) // preview POSTed JSON request body
 			var data clientData
 			err = json.Unmarshal(body, &data)
 			if err != nil {
@@ -86,7 +86,8 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("\t-> Client POSTed .PNG Height: ", data.Height)
 			fmt.Println("\t-> Client POSTed Scale: ", data.Scale)
 			trippyPng(data.Filename, data.Width, data.Height, data.Scale)
-			//http.ServeFile(w, r, data.Filename)
+			time.Sleep(1 * time.Millisecond)
+			http.ServeFile(w, r, data.Filename)
 			png, err := os.Open(data.Filename)
 			if err != nil {
 			  http.Error(w, ".png file not found", http.StatusNotFound)
@@ -97,7 +98,6 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 			  http.Error(w, "file.Stat() error", http.StatusInternalServerError)
 			  return
 			}
-			w.Header().Set("Content-Type", "image/png")
 			http.ServeContent(w, r, data.Filename, pngInfo.ModTime(), png)
 			fmt.Println("\nSuccessfully sent generated and sent "+data.Filename+" to the client\n")
 			png.Close()
